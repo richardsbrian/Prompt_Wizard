@@ -4,24 +4,28 @@ from utils import load_image, scale_image
 
 # Animated Sprite class
 class AnimatedSprite(pygame.sprite.Sprite):
-    def __init__(self, sprite_sheet_path, frames_count, idle_sprite_sheet_path, idle_frames_count, scale_factor=2, screen_width=800, screen_height=600):
+    def __init__(self, sprite_sheet_path, frames_count, idle_sprite_sheet_path, idle_frames_count, freeze_sprite_sheet_path, freeze_frames_count, scale_factor=2, screen_width=800, screen_height=600):
         super().__init__()
         self.sprite_sheet = load_image(sprite_sheet_path).convert_alpha()
         self.idle_sprite_sheet = load_image(idle_sprite_sheet_path).convert_alpha()
+        self.freeze_sprite_sheet = load_image(freeze_sprite_sheet_path).convert_alpha()
         self.scale_factor = scale_factor
         self.frames = self.get_frames(frames_count, self.sprite_sheet)
         self.idle_frames = self.get_frames(idle_frames_count, self.idle_sprite_sheet)
+        self.freeze_frames = self.get_frames(freeze_frames_count, self.freeze_sprite_sheet)
         self.current_frame = 0
-        self.image = self.frames[self.current_frame]
+        self.image = self.freeze_frames[self.current_frame]
         self.rect = self.image.get_rect()
         self.rect.center = (self.rect.width // 2, screen_height - self.rect.height // 2)
         self.speed = 5
         self.moving_animation_speed = 5
         self.idle_animation_speed = 40
+        self.freeze_animation_speed = 10
         self.animation_counter = 0
         self.facing_right = True
         self.active = False
         self.is_moving = False
+        self.is_freezing = True  # Set is_freezing to True initially
 
     def get_frames(self, frames_count, sprite_sheet):
         frame_width = sprite_sheet.get_width() // frames_count
@@ -39,6 +43,19 @@ class AnimatedSprite(pygame.sprite.Sprite):
         return [pygame.transform.flip(frame, True, False) for frame in frames]
 
     def update(self, mouse_pos):
+        if self.is_freezing:
+            self.animation_counter += 1
+            if self.animation_counter >= self.freeze_animation_speed:
+                self.current_frame += 1
+                if self.current_frame >= len(self.freeze_frames):
+                    self.is_freezing = False
+                    self.current_frame = 0
+                    self.image = self.idle_frames[self.current_frame]
+                else:
+                    self.image = self.freeze_frames[self.current_frame]
+                self.animation_counter = 0
+            return
+
         dx = mouse_pos[0] - self.rect.centerx
         dy = mouse_pos[1] - self.rect.centery
         distance = math.sqrt(dx**2 + dy**2)
@@ -73,3 +90,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def toggle_active(self):
         self.active = not self.active
+
+# Ensure to update the `load_image` and `scale_image` functions to include the freeze animation frames
+# Usage example:
+# animated_sprite = AnimatedSprite("path_to_move_sprite_sheet.png", move_frames_count, "path_to_idle_sprite_sheet.png", idle_frames_count, "path_to_freeze_sprite_sheet.png", freeze_frames_count)
