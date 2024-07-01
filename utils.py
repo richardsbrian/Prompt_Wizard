@@ -1,6 +1,7 @@
 import pygame
 import sys
 
+
 # Function to load an image with error handling
 def load_image(path):
     try:
@@ -9,6 +10,7 @@ def load_image(path):
     except pygame.error as e:
         print(f"Unable to load image at {path}: {e}")
         sys.exit()
+
 
 # Function to scale image
 def scale_image(image, width, height):
