@@ -23,7 +23,7 @@ background = load_image('png_files\\screenshots\\screenshot.png').convert()
 background = scale_image(background, width, height)
 
 # Create animated sprite
-sprite = AnimatedSprite("png_files\wizard_things\wizard.png", 4, scale_factor=2, screen_width=width, screen_height=height)
+sprite = AnimatedSprite("png_files\wizard_things\walking.png", 4, "png_files\wizard_things\idle.png", 4, scale_factor=2, screen_width=width, screen_height=height)
 all_sprites = pygame.sprite.Group(sprite)
 
 # Variables for dragging box
