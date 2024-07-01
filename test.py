@@ -1,18 +1,10 @@
 import pygame
 import math
-
 from utils import load_image, scale_image
 from screen_effect import tint_screen_blue
-import globals
+from speech_bubble import SpeechBubble
 
-
-def toggle_bubble_visibility():
-    if globals.sprite2:
-        globals.sprite2.toggle_visibility()
-
-
-
-# Animated Sprite class
+# AnimatedSprite class
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(
         self,
@@ -25,6 +17,7 @@ class AnimatedSprite(pygame.sprite.Sprite):
         scale_factor=2,
         screen_width=800,
         screen_height=600,
+        font=None,
     ):
         super().__init__()
         self.sprite_sheet = load_image(sprite_sheet_path).convert_alpha()
@@ -49,6 +42,8 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.active = False
         self.is_moving = False
         self.is_freezing = True  # Set is_freezing to True initially
+        self.font = font if font else pygame.font.Font(None, 24)
+        self.speech_bubble = None
 
     def get_frames(self, frames_count, sprite_sheet):
         frame_width = sprite_sheet.get_width() // frames_count
@@ -67,8 +62,6 @@ class AnimatedSprite(pygame.sprite.Sprite):
     def flip_frames(self, frames):
         return [pygame.transform.flip(frame, True, False) for frame in frames]
 
-
-
     def update(self, mouse_pos):
         if self.is_freezing:
             self.animation_counter += 1
@@ -80,19 +73,17 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
                 if self.current_frame == middle_frame + 2:
                     tint_screen_blue()
-                    toggle_bubble_visibility()
 
                 if self.current_frame >= len(self.freeze_frames):
                     self.is_freezing = False
                     self.current_frame = 0
                     self.image = self.idle_frames[self.current_frame]
-                   
+                    self.show_speech_bubble("Hello, World!")  # Example text
                 else:
                     self.image = self.freeze_frames[self.current_frame]
-                    
+
                 self.animation_counter = 0
             return
-
 
         dx = mouse_pos[0] - self.rect.centerx
         dy = mouse_pos[1] - self.rect.centery
@@ -128,9 +119,56 @@ class AnimatedSprite(pygame.sprite.Sprite):
                 self.image = self.idle_frames[self.current_frame]
             self.animation_counter = 0
 
+        # Update speech bubble position
+        if self.speech_bubble:
+            self.speech_bubble.rect.midbottom = self.rect.midtop
+
     def toggle_active(self):
         self.active = not self.active
 
+    def show_speech_bubble(self, text):
+        self.speech_bubble = SpeechBubble(text, self.font, (50, 50, 0))
+        self.speech_bubble.set_position(self.rect.centerx, self.rect.top - self.speech_bubble.rect.height)
 
+    def hide_speech_bubble(self):
+        self.speech_bubble = None
 
+# Main game loop
+def main():
+    pygame.init()
+    screen = pygame.display.set_mode((800, 600))
+    clock = pygame.time.Clock()
+    animated_sprite = AnimatedSprite(
+    "png_files\\wizard_things\\walking.png",
+    4,
+    "png_files\\wizard_things\\idle.png",
+    4,
+    "png_files\\wizard_things\\freeze.png",
+    10,
+    )
+    all_sprites = pygame.sprite.Group(animated_sprite)
+    running = True
 
+    while running:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                animated_sprite.toggle_active()
+
+        mouse_pos = pygame.mouse.get_pos()
+        all_sprites.update(mouse_pos)
+
+        screen.fill((255, 255, 255))
+        all_sprites.draw(screen)
+
+        if animated_sprite.speech_bubble:
+            screen.blit(animated_sprite.speech_bubble.image, animated_sprite.speech_bubble.rect)
+
+        pygame.display.flip()
+        clock.tick(60)
+
+    pygame.quit()
+
+if __name__ == "__main__":
+    main()
