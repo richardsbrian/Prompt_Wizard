@@ -1,5 +1,6 @@
 # main.py
 import pygame
+import sys
 from speech_bubble import SpeechBubble
 from sprite import AnimatedSprite
 from utils import load_image, scale_image
@@ -36,18 +37,23 @@ sprite = AnimatedSprite(
     screen_height=height,
 )
 
+# Update sprite position in globals
+globals.sprite_position = sprite.rect.topleft
+
+# Create the speech bubble
 globals.sprite2 = SpeechBubble(
-    text="Hello, World!", 
+    text="Click and drag over the screen to make a selection!", 
     font=pygame.font.SysFont("Arial", 24), 
-    text_color=(50, 50, 0),
-    bg_color=(255, 255, 255),
+    text_color=(255, 255, 255),
+    bg_color=(0, 0, 0),
     border_color=(0, 0, 0)
 )
 
-globals.sprite2.set_position(100, 100)
+globals.sprite2.set_position_relative_to_sprite()
 
 all_sprites = pygame.sprite.Group(sprite, globals.sprite2)
 
+globals.sprite2.toggle_visibility() 
 # Variables for dragging box
 dragging = False
 start_pos = None
@@ -111,6 +117,8 @@ def handle_events():
 def update_sprites():
     mouse_pos = pygame.mouse.get_pos()
     all_sprites.update(mouse_pos)
+    globals.sprite_position = sprite.rect.topleft
+    globals.sprite2.set_position_relative_to_sprite()
 
 def draw_screen():
     screen.blit(background, (0, 0))

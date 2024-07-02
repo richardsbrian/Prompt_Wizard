@@ -1,4 +1,5 @@
 import pygame
+import globals  # Import the globals file
 
 class SpeechBubble(pygame.sprite.Sprite):
     def __init__(self, text, font, text_color, bg_color=(255, 255, 255), border_color=(0, 0, 0), padding=10):
@@ -57,3 +58,10 @@ class SpeechBubble(pygame.sprite.Sprite):
     def update(self, *args):
         self.image = self.create_image()
         self.rect = self.image.get_rect()
+
+    def set_position_relative_to_sprite(self):
+        sprite_x, sprite_y = globals.sprite_position
+    
+        bubble_x = sprite_x + 150  # Adjust the offset as needed
+        bubble_y = sprite_y + 20
+        self.set_position(bubble_x, bubble_y)

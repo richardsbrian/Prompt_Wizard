@@ -11,7 +11,6 @@ def toggle_bubble_visibility():
         globals.sprite2.toggle_visibility()
 
 
-
 # Animated Sprite class
 class AnimatedSprite(pygame.sprite.Sprite):
     def __init__(
@@ -50,6 +49,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
         self.is_moving = False
         self.is_freezing = True  # Set is_freezing to True initially
 
+        # Update the position in globals on initialization
+        globals.update_sprite_position(self.rect.x, self.rect.y)
+
     def get_frames(self, frames_count, sprite_sheet):
         frame_width = sprite_sheet.get_width() // frames_count
         frame_height = sprite_sheet.get_height()
@@ -66,8 +68,6 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def flip_frames(self, frames):
         return [pygame.transform.flip(frame, True, False) for frame in frames]
-
-
 
     def update(self, mouse_pos):
         if self.is_freezing:
@@ -86,13 +86,11 @@ class AnimatedSprite(pygame.sprite.Sprite):
                     self.is_freezing = False
                     self.current_frame = 0
                     self.image = self.idle_frames[self.current_frame]
-                   
                 else:
                     self.image = self.freeze_frames[self.current_frame]
-                    
+
                 self.animation_counter = 0
             return
-
 
         dx = mouse_pos[0] - self.rect.centerx
         dy = mouse_pos[1] - self.rect.centery
@@ -105,6 +103,9 @@ class AnimatedSprite(pygame.sprite.Sprite):
             dy = (dy / distance) * self.speed
             self.rect.x += dx
             self.rect.y += dy
+
+            # Update the position in globals
+            globals.update_sprite_position(self.rect.x, self.rect.y)
 
             if dx < 0 and self.facing_right:
                 self.frames = self.flip_frames(self.frames)
@@ -130,7 +131,3 @@ class AnimatedSprite(pygame.sprite.Sprite):
 
     def toggle_active(self):
         self.active = not self.active
-
-
-
-
