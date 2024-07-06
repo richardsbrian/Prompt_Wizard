@@ -32,6 +32,8 @@ sprite = AnimatedSprite(
     4,
     "png_files\\wizard_things\\freeze.png",
     10,
+    # "png_files\\wizard_things\\wizard_study.png",
+    # 12,
     scale_factor=2,
     screen_width=width,
     screen_height=height,
@@ -95,7 +97,12 @@ def handle_mouse_button_up_event(event):
         region = (x, y, width, height)
         take_screenshot(filename="box_screenshot.png", region=region)
         if not display_screenshot_with_input(
-            "png_files\\screenshots\\box_screenshot.png"
+            "png_files\\screenshots\\box_screenshot.png",
+            "png_files\\wizard_things\\wizard_study.png",
+            144,
+            128,
+            288,  
+            256 
         ):
             running = False
 
