@@ -1,8 +1,8 @@
-# Wizard Desktop Helper
+# ![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/wiz.png)  Wizard Desktop Helper ![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/wiz_flip.png)
 
- Wizard Desktop Helper is a screenshot tool POC that allows you to prompt Anthropic's Claude API. It is designed to make capturing screenshots and generating prompts easy and integrated.
+Wizard Desktop Helper is a proof-of-concept tool designed to streamline the process of capturing and analyzing screenshots by integrating with Anthropic's Claude API. This innovative tool enhances productivity and efficiency by allowing users to prompt the Claude API with a simple hotkey press.
 
-![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/wizard_things/wiz.png)
+
 
 ## Installation
 -Clone the Repository
@@ -21,25 +21,39 @@ git clone <https://github.com/richardsbrian/desktop_helper>
 Create a **.env** file in the project directory and add your Anthropic API key.
  The first line of the .env file should be: **ANTHROPIC_API_KEY="your-API-key"**
 
-## Usage
-Run the Application
-Execute the main script. To start the application use: **python main.py**
+# Usage
+## Run the Application
+
+To start the application use: **python main.py**
 
 Once the application is running, click the Start button.
 
-Capture a Screenshot
+![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/start.png)
+
+The program will minimize itself and await a screenshot call 
+
+
+## Capture a Screenshot
+
 Press **Ctrl + Alt + W** to take a screenshot.
 
-Add a Prompt
+The wizard will appear in the screen's bottom left corner and give you instructions.
+
+![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/wiz_drag.png)
+
+Click and drag over the content you wish to ask a question about
+
+![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/drag.png)
+
+## Add a Prompt
+
 After taking a screenshot, you can add a prompt to the image and press **Enter**.
 
-## Features
-Capture screenshots with a keyboard shortcut.
-Integrate prompts with screenshots using Anthropic's Claude API.
+![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/ask.png)
 
-## Dependencies
-Python 3.x
-Libraries specified in requirements.txt
+then a response will be generated
+
+![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/response.png)
 
 
 ## License
