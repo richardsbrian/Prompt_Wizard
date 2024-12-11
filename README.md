@@ -1,6 +1,6 @@
-# ![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/wiz.png)  Wizard Desktop Helper ![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/wiz_flip.png)
+# ![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/wiz.png)  Prompt Wizard ![ ](https://github.com/richardsbrian/desktop_helper/blob/main/png_files/for_README/wiz_flip.png)
 
-Wizard Desktop Helper is a proof-of-concept tool designed to streamline the process of capturing and analyzing screenshots by integrating with Anthropic's Claude API. This innovative tool enhances productivity and efficiency by allowing users to prompt the Claude API with a simple hotkey press.
+Prompt Wizard is a proof-of-concept tool designed to streamline the process of capturing and analyzing screenshots by integrating with Anthropic's Claude API. This innovative tool enhances productivity and efficiency by allowing users to prompt the Claude API with a simple hotkey press.
 
 
 
